@@ -1,4 +1,4 @@
-package com.rahul.foodrecipe
+package com.rahul.foodrecipe.viewmodels
 
 import android.app.Application
 import android.content.Context
@@ -42,15 +42,15 @@ class MainViewModel @ViewModelInject constructor(
     }
 
     private fun handleFoodRecipeResponse(response: Response<FoodRecipes>): NetworkResult<FoodRecipes>? {
-        when{
-            response.message().toString().contains("timeout") -> return NetworkResult.Error("Timeout")
-            response.code() == 402 -> return NetworkResult.Error("Api Limit Reached")
-            response.body()!!.results.isNullOrEmpty() -> return NetworkResult.Error("Recipes not found.")
+        return when{
+            response.message().toString().contains("timeout") -> NetworkResult.Error("Timeout")
+            response.code() == 402 -> NetworkResult.Error("Api Limit Reached")
+            response.body()!!.results.isNullOrEmpty() -> NetworkResult.Error("Recipes not found.")
             response.isSuccessful -> {
                 val recipes = response.body()
-                return NetworkResult.Success(recipes!!)
+                NetworkResult.Success(recipes!!)
             }
-            else -> return NetworkResult.Error(response.message())
+            else -> NetworkResult.Error(response.message())
         }
     }
 

@@ -35,6 +35,7 @@
                 android:background="@color/white">
 
                 <ImageView
+                    loadImageFromUrl="@{result.image}"
                     android:id="@+id/recipe_imageView"
                     android:layout_width="200dp"
                     android:layout_height="0dp"
@@ -71,7 +72,6 @@
                     android:ellipsize="end"
                     android:maxLines="3"
                     android:text="@{result.summary}"
-                    setNumberOfLikes="@{result.aggregateLikes}"
                     android:textColor="@color/darkGray"
                     app:layout_constraintEnd_toEndOf="@+id/title_textView"
                     app:layout_constraintStart_toStartOf="@+id/title_textView"
@@ -84,9 +84,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="36dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/heart_textView"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/heart_textView"
+                    app:layout_constraintStart_toStartOf="@+id/description_textView"
                     app:layout_constraintTop_toBottomOf="@+id/description_textView"
                     app:layout_constraintVertical_bias="0.0"
                     app:srcCompat="@drawable/ic_heart"
@@ -94,55 +92,57 @@
 
                 <TextView
                     android:id="@+id/heart_textView"
+                    setNumberOfLikes="@{result.aggregateLikes}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="100"
-                    android:textColor="@color/red"
                     android:textAlignment="center"
-                    app:layout_constraintStart_toStartOf="@+id/description_textView"
+                    android:textColor="@color/red"
+                    app:layout_constraintEnd_toEndOf="@+id/heart_imageView"
+                    app:layout_constraintStart_toStartOf="@+id/heart_imageView"
                     app:layout_constraintTop_toBottomOf="@+id/heart_imageView" />
 
                 <ImageView
                     android:id="@+id/clock_imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:tint="@color/yellow"
-                    app:layout_constraintEnd_toEndOf="@+id/clock_textView"
-                    app:layout_constraintStart_toStartOf="@+id/clock_textView"
+                    android:layout_marginStart="24dp"
+                    app:layout_constraintStart_toEndOf="@+id/heart_imageView"
                     app:layout_constraintTop_toTopOf="@+id/heart_imageView"
-                    app:srcCompat="@drawable/ic_time" />
+                    app:srcCompat="@drawable/ic_time"
+                    app:tint="@color/yellow" />
 
                 <TextView
                     android:id="@+id/clock_textView"
+                    setNumberOfMinutes="@{result.readyInMinutes}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
                     android:text="100"
-                    setNumberOfMinutes="@{result.readyInMinutes}"
-                    android:textColor="@color/yellow"
                     android:textAlignment="center"
-                    app:layout_constraintStart_toEndOf="@+id/heart_textView"
+                    android:textColor="@color/yellow"
+                    app:layout_constraintEnd_toEndOf="@+id/clock_imageView"
+                    app:layout_constraintStart_toStartOf="@+id/clock_imageView"
                     app:layout_constraintTop_toBottomOf="@+id/clock_imageView" />
 
                 <ImageView
-                    applyBeganColor="@{result.vegan}"
                     android:id="@+id/leaf_imageView"
+                    applyBeganColor="@{result.vegan}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="@+id/leaf_textView"
-                    app:layout_constraintStart_toStartOf="@+id/leaf_textView"
+                    android:layout_marginStart="24dp"
+                    app:layout_constraintStart_toEndOf="@+id/clock_imageView"
                     app:layout_constraintTop_toTopOf="@+id/clock_imageView"
                     app:srcCompat="@drawable/ic_eco" />
 
                 <TextView
                     android:id="@+id/leaf_textView"
+                    applyBeganColor="@{result.vegan}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
                     android:text="Vegan"
-                    applyBeganColor="@{result.vegan}"
                     android:textAlignment="center"
-                    app:layout_constraintStart_toEndOf="@+id/clock_textView"
+                    app:layout_constraintEnd_toEndOf="@+id/leaf_imageView"
+                    app:layout_constraintStart_toStartOf="@+id/leaf_imageView"
                     app:layout_constraintTop_toBottomOf="@+id/leaf_imageView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
