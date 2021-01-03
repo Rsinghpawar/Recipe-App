@@ -1,4 +1,4 @@
-package com.rahul.foodrecipe
+package com.rahul.foodrecipe.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

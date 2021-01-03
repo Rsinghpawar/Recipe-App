@@ -5,12 +5,13 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.rahul.foodrecipe.data.Repository
+import com.rahul.foodrecipe.data.database.RecipesEntity
 import com.rahul.foodrecipe.models.FoodRecipes
 import com.rahul.foodrecipe.utils.NetworkResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.lang.Exception
@@ -21,6 +22,17 @@ class MainViewModel @ViewModelInject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
+    /** ROOM Database **/
+
+    val readRecipes: LiveData<List<RecipesEntity>> = repository.local.readDatabase().asLiveData()
+
+    private fun insertRecipes(recipesEntity: RecipesEntity) =
+        viewModelScope.launch(IO) {
+            repository.local.insertRecipes(recipesEntity)
+        }
+
+
+    /** RETROFIT **/
     val recipesResponse: MutableLiveData<NetworkResult<FoodRecipes>> = MutableLiveData()
 
     fun getRecipes(queries: Map<String, String>) = viewModelScope.launch {
@@ -33,6 +45,11 @@ class MainViewModel @ViewModelInject constructor(
             try {
                 val response = repository.remote.getRecipes(queries)
                 recipesResponse.value = handleFoodRecipeResponse(response)
+
+                val recipes = recipesResponse.value!!.data
+                if (recipes != null) {
+                    offlineCacheRecipes(recipes)
+                }
             } catch (e: Exception) {
 
             }
@@ -41,8 +58,13 @@ class MainViewModel @ViewModelInject constructor(
         }
     }
 
+    private fun offlineCacheRecipes(recipes: FoodRecipes) {
+        val recipesEntity = RecipesEntity(recipes)
+        insertRecipes(recipesEntity)
+    }
+
     private fun handleFoodRecipeResponse(response: Response<FoodRecipes>): NetworkResult<FoodRecipes>? {
-        return when{
+        return when {
             response.message().toString().contains("timeout") -> NetworkResult.Error("Timeout")
             response.code() == 402 -> NetworkResult.Error("Api Limit Reached")
             response.body()!!.results.isNullOrEmpty() -> NetworkResult.Error("Recipes not found.")

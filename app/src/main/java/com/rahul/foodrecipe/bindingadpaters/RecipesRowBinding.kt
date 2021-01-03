@@ -1,4 +1,4 @@
-package com.rahul.foodrecipe.adapters
+package com.rahul.foodrecipe.bindingadpaters
 
 import android.view.View
 import android.widget.ImageView

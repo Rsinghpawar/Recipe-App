@@ -15,22 +15,23 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
 
     class MyViewHolder(private val binding: ItemRecipesBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
             fun bind(result: Result) {
                 binding.result = result
                 binding.executePendingBindings()
             }
-            companion object{
-                fun from(parent: ViewGroup) : MyViewHolder {
-                    val layoutInflater = LayoutInflater.from(parent.context)
-                    val binding = ItemRecipesBinding.inflate(layoutInflater , parent , false)
-                    return MyViewHolder(binding)
-                }
-            }
+//            companion object{
+//                fun from(parent: ViewGroup) : MyViewHolder {
+//
+//                }
+//            }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder.from(parent)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ItemRecipesBinding.inflate(layoutInflater , parent , false)
+        return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
