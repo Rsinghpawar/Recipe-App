@@ -13,4 +13,19 @@ object Constants {
     const val QUERY_DIET = "diet"
     const val QUERY_ADD_RECIPE_INFORMATION = "addRecipeInformation"
     const val QUERY_FILL_INGREDIENTS = "fillIngredients"
+
+
+    //bottom sheets
+    const val DEFAULT_MEAL_TYPE = "main course"
+    const val DEFAULT_DIET_TYPE = "gluten free"
+
+
+    const val PREFERENCES_NAME = "foody_pref"
+    const val PREFERENCES_MEAL_TYPE = "mealType"
+    const val PREFERENCES_MEAL_TYPE_ID = "mealTypeId"
+    const val PREFERENCES_DIET_TYPE = "dietType"
+    const val PREFERENCES_DIET_TYPE_ID = "dietTypeId"
+
+
+
 }
